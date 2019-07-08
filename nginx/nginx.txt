@@ -1,0 +1,43 @@
+1、nginx启动命令 nginx
+ 
+2、控制命令 nginx -s
+nginx -s stop
+nginx -s quit
+nginx -s reload
+nginx -s reopen
+
+nginx应用场景
+1、http服务器；
+2、虚拟主机；
+3、反向代理、负载均衡；
+
+特点：
+高并发连接
+内存消耗少
+配置简单
+支持gzip
+成本低廉
+反向代理
+内置健康检查功能
+
+nginx使用epoll(linux2.6内核)和kqueue（freebsd）网络模型，apache使用select模型。
+epoll和select都是I/O多路复用。
+
+nginx多进程：nginx启动后会有一个master进程和多个worker进程。
+master进程主要用来管理worker进程，包含：接收来自外界的信号，向各个worker进程发送信号，
+监控worker进程的运行状态，当worker进程异常退出后会自动重新启动新的worker进程。
+
+Q:多个worker进程有多少个，是否自动启动后master控制？
+worker进程个数可设置，一般与cpu核数一致。
+成千上万个请求应该创建对应个数的worder数？不然如何实现高并发？
+
+异步非阻塞和多线程比较？
+
+多线程：每次能同时执行与计算机处理器核数等量的线程，如果线程数目很多，切换线程需要消耗大量cpu资源。
+
+异步非阻塞：
+
+事件驱动处理库
+select：
+poll：
+epoll：
