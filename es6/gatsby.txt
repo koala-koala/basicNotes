@@ -1,0 +1,14 @@
+1、全局安装 gatsby-cli
+npm install --global gatsby-cli
+
+2、新建gatsby项目
+gatsby new [SITE_DIRECTORY_NAME] [URL_OF_STARTER_GITHUB_REPO]
+
+3、router
+项目src目录里的pages文件夹下面的文件包括子文件都会被编译成一个html，以文件名为route。
+tips:src/pages/下面的文件都必须default export 一个字符串或者component。
+
+4、plugins
+
+5、deploy
+静态网站部署可使用surge，直接在build后的文件夹内执行surge，会分配一个域名。

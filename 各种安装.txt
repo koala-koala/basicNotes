@@ -1,0 +1,10 @@
+配置zsh：
+http://yijiebuyi.com/blog/b9b5e1ebb719f22475c38c4819ab8151.html
+
+electron安装报错：
+Error: read ECONNRESET
+    at _errnoException (util.js:1022:11)
+    at TLSWrap.onread (net.js:628:25)
+解决：网络问题，速度太慢，换镜像安装；
+.bash_profile .npmrc 都可以设置全局变量，也可以直接命令行输入
+export ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/"

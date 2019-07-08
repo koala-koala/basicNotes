@@ -1,0 +1,50 @@
+一、contentType:发送消息至服务器时内容编码类型。
+ajax请求中contentType的常见值：
+1、application/json
+2、text/plain
+3、text/html
+4、text/xml
+5、aplliction/x-www-form-urlencode
+form的enctype属性为编码方式，常见的有两种：appliction-x-www-form-urlencode
+和multipart/form-data,默认为appliction-x-www-form-urlencode。
+当action为get时，浏览器用
+appliction-x-www-form-urlencode的编码方式把form数据转换成一个字串（name1=value1&name2=value2），
+然后把这个字串append到url后面，用？分割，加载这个新的url。
+当action为post时，浏览器把form数据封装到http body中，然后发送到server。
+如果没有type=file控件，就用默认的编码方式。如果有type=file，要用mutlipart/form-data。
+浏览器会把整个表单以控件为单位分割，并为每个部分加上Content-Disposition(form-data或file),
+Conten-Type(默认为text/plain),name(控件name)等信息，并加上分割符(boundary)。
+
+二、dataType:预期服务器返回的数据类型。
+1、xml：返回xml文档，可用jquery处理。
+2、html：返回纯文本javascript代码。在远程请求时，所有post请求都将转为get请求。
+3、json：返回json数据。
+4、jsonp：jsonp格式，使用jsonp形式调用函数时，如‘url?callback=?’jquery将自动替换？为正确的函数名，以执行回调函数。
+5、text:返回纯文本字符串。
+
+三、beforeSend：发送请求前可修改XMLHttpRequest对象的函数，如添加自定义HTTP头。
+$.ajax({
+	beforeSend:function(){
+		//ajax请求前的操作 禁用按钮
+		$('#submit').attr({disabled:'disabled'});
+	},
+	complete:function(){
+		//完成时的操作 启用按钮
+		$('#submit').removeAttr(disabled);
+	}
+});
+全局设置：请求前显示loading，请求完成隐藏。
+$(document).bind('ajaxSend',function(){
+	$('#loading').show();
+}).bind('ajaxComplete',function(){
+	$('#loading').hide();
+});
+四、$.ajaxSetup()
+使用$.ajaxSetup来设置任何默认选项。
+$.ajaxSetup({
+	xhrFields:{
+		withCredentials:true
+	}
+});
+
+

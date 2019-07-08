@@ -1,0 +1,5 @@
+hello,this is my first text file.
+and this is a prictice of vim.
+it's easy.
+hahaha!!!
+#hello!

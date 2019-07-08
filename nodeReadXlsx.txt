@@ -1,0 +1,107 @@
+node.js读取excel插件有以下几种：
+
+1, xlsx(https://www.npmjs.com/package/xlsx,http://www.open-open.com/lib/view/open1454243598448.html)
+安装:
+npm install xlsx
+基本用法：
+1/用 XLSX.readFile 打开 Excel 文件，返回 workbook
+2/用 workbook.SheetNames 获取表名
+3/用 workbook.Sheets[xxx] 通过表名获取表格
+4/按自己的需求去处理表格
+5/生成新的 Excel 文件
+
+例子：
+可以通过XLSX.utils.sheet_to_json(worksheet) 获得同样的结果
+if(typeof require !== 'undefined'){
+	XLSX = require('xlsx');
+}
+var workbook = XLSX.readFile('test.xlsx');
+workbook.SheetNames.forEach(function(sheetName){
+	var worksheet = workbook.Sheets[sheetName];
+	const headers = {};
+	const data = [];
+	//假设第一行为字段名
+	const keys = Object.keys(worksheet);
+	keys
+    // 过滤以 ! 开头的 key
+    .filter(k => k[0] !== '!')
+    // 遍历所有单元格
+    .forEach(k => {
+        // 如 A11 中的 A
+        let col = k.substring(0, 1);
+        // 如 A11 中的 11
+        let row = parseInt(k.substring(1));
+        // 当前单元格的值
+        let value = worksheet[k].v;
+
+        // 保存字段名
+        if (row === 1) {
+            headers[col] = value;
+            return;
+        }
+
+        // 解析成 JSON
+        if (!data[row]) {
+            data[row] = {};
+        }
+        data[row][headers[col]] = value;
+    });
+})
+console.log(data); // [ { '姓名': 'test1', '年龄': 20 }, { '姓名': 'test2', '年龄': 10 } ... ]
+
+
+2,node-xlsx（http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/）
+
+安装：
+npm install node-xlsx
+
+基本用法：
+例子：
+var nodex = require('node-xlsx');
+/**第一个sheet表*/
+var obj = nodex.parse('data/新闻中心/公司新闻.xlsx')[0];
+obj:
+{
+	"name":"工作表1",
+	"data":[[],[]]
+}
+var result = obj.data;
+var headers = {
+		"问题": "title",
+		"回答": "answer",
+		"标题图": "img"
+	};
+parseRows（result, headers）；
+/**得到的result是每一行的数组，解析数组转换成json，可以把中文的title转换为英文**/
+function parseRows(result, headers) {
+	var len = result.length - 1;
+	var colNames = result.shift();
+	var cols = colNames.map(function(col, i) {
+		return {
+			index: i,
+			name: headers[col],
+			label: col
+		};
+	});
+	result = result.map(function(row, index) {
+		var oneRow = {};
+		cols.forEach(function(col) {
+			oneRow[col.name] = row[col.index];
+			oneRow.id = index;
+			/***日期**/
+			if (col.name == 'date') {
+				var date = new Date('1900/1/1');
+				date.setDate(date.getDate() + parseInt(oneRow[col.name]) - 1);
+				oneRow[col.name] = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+			}
+			if (oneRow[col.name] == undefined) {
+				oneRow[col.name] = '';
+			}
+		});
+
+		return oneRow;
+	});
+	return result;
+
+}
+

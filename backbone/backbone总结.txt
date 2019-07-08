@@ -1,0 +1,74 @@
+ItemView,ColletionView,CompositeView,LayoutView
+
+一、onRender
+view已经render后触发，通常同来处理view的el
+Mationette.ItemView.extend({
+	onRender:function(){
+		//el is already
+		//可以对页面html进行处理
+	}
+});
+
+二、ItemView serializeData
+序列化从服务器获取的数据（this.model.toJSON()），自己重写serializeData方法，可以对服务器获得的数据进行包装,必须返回一个序列化后的json对象
+var d = {time:'2022000'};
+d = _.extend(this.model.toJSON(), d);
+
+ 三、UI 页面DOM元素(jquery选择器)
+ Marionette.ItemView.extend({
+ 	tagName:'tr',
+ 	ui:{
+ 		input:'input[type=text]',
+ 		checkbox:'.checkbox'
+ 	},
+ 	onRender:function(){
+ 		this.ui.input.focus();
+ 	}
+ });
+
+四、modelEvents 和 collectionEvents
+ ItemView可以直接绑定model和collection的方法
+ Marionette.ItemView.extend({
+ 	modelEvents:{
+ 		//绑定model的change事件，响应modelChanged方法
+ 		'change':'modelChanged'
+ 	},
+ 	collectionEvents:{
+ 		//绑定collection的add事件，响应modelChanged方法
+ 		'add':'modelAdd'
+ 	},
+ 	modelChanged:function(){
+ 		//数据改变
+ 	},
+ 	modelAdd:function(){
+ 		//向集合中添加数据
+ 	}
+ });
+
+五、在ItemView中render一个colletion
+通常加载一个collection是通过CollectionView或者CompositeView，
+但如果页面上只是简单的展示列表数据，没有太多交互，可以直接在ItemView中遍历集合显示数据
+	<script id='some-template' type='text/html'>
+		<ul>
+			<%_.each(items,function(item){%>
+				<li><%=item.someAttr%></li>
+			<%})%>
+		</ul>
+	</script>
+六、ItemView template
+//RankTableMineTpl 模板
+//{}里面为传到页面的参数,页面可根据这些参数判断显示
+RankTableMineTpl({
+    next: this.next,
+    ranks: ranks,
+    pickRequirements: pickRequirements
+});
+
+
+
+
+
+
+
+
+

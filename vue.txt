@@ -1,0 +1,16 @@
+一、脚手架项目
+
+1、全局安装vue-cli（脚手架）
+npm install --global vue-cli
+
+2、在当前目录创建项目名称为my-vue的脚手架项目
+vue init webpack my-vue
+
+3、安装依赖包
+cd my-vue
+npm install
+
+4、dev环境启动
+npm run dev
+
+二、

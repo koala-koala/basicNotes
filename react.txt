@@ -1,0 +1,20 @@
+/*eslint-disable*/
+创建store
+//p1:reducer(纯函数，返回新的state) p2:初始state p3:中间件
+const store = createStore(reducer, init_state, middleWares);
+
+reducer(纯函数,返回新的state)
+function reducerA(old_state, action) {
+    return new_state;
+}
+combineReducers()合并reducer
+
+
+action
+
+
+插件:
+immutable {fromJS} 创建不可变对象, const init_state = fromJS({name: 'koala'});
+lodash/conformsTo  _.conformsTo(object, source) 检查object是否符合source.
+invariant invariant(someFalseyVal, 'This is error message!') 如果someTruthyVal为true，则打印错误信息，//Error:Invariant Violation:This is error message!
+react-intl 国际化

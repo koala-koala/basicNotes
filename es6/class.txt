@@ -1,0 +1,22 @@
+class Animal {
+
+    constructor (name, voice) {
+        this.name = name;
+        this.voice = voice;
+    }
+
+    shout () {
+        console.log(this.name + 'shout:' + this.voice);
+    }
+}
+
+class Cat extends Animal {
+
+    constructor (name) {
+        super(name);
+        this.voice = '喵~';
+    }
+}
+
+let garfield = new Cat('加菲猫');
+garfield.shout();

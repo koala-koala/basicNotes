@@ -1,0 +1,60 @@
+controller第一个参数M为view的对象，M.view名称可以访问view；
+
+region.show(view)可以触发layout的onShow方法；
+如果不是layoutview不能初始化的时候自动调用show方法，可以手动触发
+view.triggerMethod('show');
+
+App.vent全局事件机制，App.vent.trigger触发事件
+//触发全局事件
+App.vent.trigger('方法名','参数')；
+//监听全局事件
+this.listenTo(App.vent,{
+    '方法名':funciton(){
+        //方法体
+    }
+});
+
+initialize可以获取初始化参数；
+//new一个view
+layout.main.show(new M.HomeView(opts));
+//initialize中获取参数
+initialize:function(opts){
+    //对opts参数进行操作
+}
+也可以通过this.getOption(对象属性)获取参数(community/home.js)
+
+
+
+
+render和onRender
+render是backbone的方法,onRender是Marionette的方法。
+在render中调用Marionette的render
+Marionette.ItemView.Prototype.render.apply(this,arguments);
+
+
+分页
+1、可以通过改变url分页，但是整个页面会重新加载。
+community/home.js
+App.Route.navigate(url,{
+    trigger:true
+});
+2、通过改变url分页，不重新加载整个页面，需要设置不加载页面。但是需要将需要改变的数据重新填充到相应div。
+App.Route.navigate(url,{
+    trigger:false
+});
+3、不通过改变url分页，直接刷新数据，也不会加载整个页面。
+share/detailView.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
